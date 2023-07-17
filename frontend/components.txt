@@ -1,0 +1,80 @@
+Shazer
+
+header
+    menu
+    icons
+input fields
+search
+
+popups
+    CATalog popups
+    doctors popups
+
+
+
+Abdullah 
+filter button \
+submit button \
+image input \
+
+list   
+    members \
+
+profile popups
+    
+    members \ 
+    departments \
+
+Usman
+list cards
+    doctors
+
+list
+    CATalog
+data analysis
+
+--------Pages-------
+
+Login 
+Add Cat to CATalogue
+
+
+Usman
+- Data Analysis
+- Doctor's database
+- CATalogue
+
+Abdullah
+- Departments 
+- Adoption 
+- Members \
+
+Shazer 
+- Reporting 
+- Auth
+- Menu 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,130 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model AWSLMembers {
+  AWSLMemberId Int      @id @default(autoincrement())
+  Email        String   @unique
+  Password     String
+  Name         String
+  CreatedAt    DateTime @default(now())
+  UpdatedAt    DateTime @updatedAt
+
+  Incidents Incidents[]
+
+  Department   Departments @relation(fields: [DepartmentId], references: [DepartmentId])
+  DepartmentId Int
+}
+
+model AWSLAdmins {
+  AWSLAdminId Int      @id @default(autoincrement())
+  Email       String   @unique
+  Password    String
+  Name        String
+  CreatedAt   DateTime @default(now())
+  UpdatedAt   DateTime @updatedAt
+}
+
+model Incidents {
+  IncidentId          Int       @id @default(autoincrement())
+  Email               String
+  Title               String
+  LocationDescription String
+  Description         String
+  ResolvedAt          DateTime?
+  Image               String?
+  CreatedAt           DateTime  @default(now())
+  UpdatedAt           DateTime  @updatedAt
+
+  LocationId Int
+  Location   Locations @relation(fields: [LocationId], references: [LocationId])
+
+  ResolvedById Int?
+  ResolvedBy   AWSLMembers? @relation(fields: [ResolvedById], references: [AWSLMemberId])
+}
+
+model Doctors {
+  DoctorId  Int      @id @default(autoincrement())
+  Name      String
+  Address   String
+  Contact   String
+  Type      String
+  CreatedAt DateTime @default(now())
+  UpdatedAt DateTime @updatedAt
+}
+
+model AdoptionProfiles {
+  AdoptionProfileId Int      @id @default(autoincrement())
+  Name              String
+  Type              String
+  Age               Int
+  Location          String
+  ShortDescription  String
+  LongDescription   String
+  CreatedAt         DateTime @default(now())
+  UpdatedAt         DateTime @updatedAt
+
+  AdoptionApplications AdoptionApplications[]
+  AdoptionPictures     AdoptionPictures[]
+}
+
+model AdoptionApplications {
+  AdoptionApplicationId Int       @id @default(autoincrement())
+  Name                  String
+  Address               String
+  Contact               String
+  CreatedAt             DateTime  @default(now())
+  UpdatedAt             DateTime  @updatedAt
+  Approved              Boolean?  @default(false)
+  ApprovedAt            DateTime?
+  Rejected              Boolean?  @default(false)
+
+  AdoptionProfileId Int
+  AdoptionProfile   AdoptionProfiles @relation(fields: [AdoptionProfileId], references: [AdoptionProfileId], onDelete: Cascade, onUpdate: Cascade)
+}
+
+model AdoptionPictures {
+  AdoptionPictureId Int    @id @default(autoincrement())
+  PhotoName         String
+
+  AdoptionProfileId Int
+  AdoptionProfile   AdoptionProfiles @relation(fields: [AdoptionProfileId], references: [AdoptionProfileId], onDelete: Cascade, onUpdate: Cascade)
+}
+
+model CATalogue {
+  CATalogueId      Int      @id @default(autoincrement())
+  Name             String
+  Sex              String
+  Age              Int
+  Image            String
+  ShortDescription String
+  LongDescription  String
+  CreatedAt        DateTime @default(now())
+  UpdatedAt        DateTime @updatedAt
+}
+
+model Departments {
+  DepartmentId Int      @id @default(autoincrement())
+  Name         String
+  CreatedAt    DateTime @default(now())
+  UpdatedAt    DateTime @updatedAt
+
+  Members AWSLMembers[]
+}
+
+model Locations {
+  LocationId Int      @id @default(autoincrement())
+  Name       String
+  CreatedAt  DateTime @default(now())
+  UpdatedAt  DateTime @updatedAt
+
+  Incidents Incidents[]
+}
